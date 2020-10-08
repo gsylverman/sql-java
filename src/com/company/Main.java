@@ -1,9 +1,6 @@
 package com.company;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Main {
 
@@ -20,7 +17,14 @@ public class Main {
 //            statement.execute("UPDATE contacts SET phone=10123546 "+
 //                    "WHERE contacts.name='Jane'");
 //            statement.execute("DELETE FROM contacts WHERE name='Grigore'");
-
+            statement.execute("SELECT * FROM contacts");
+            ResultSet result = statement.getResultSet();
+            while (result.next()) {
+                System.out.println(result.getString("name") + " " +
+                        result.getInt("phone") + " " +
+                        result.getString("email"));
+            }
+            result.close();
             statement.close();
             connection.close();
         } catch (SQLException | ClassNotFoundException e) {

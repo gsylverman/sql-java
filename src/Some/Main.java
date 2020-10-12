@@ -3,24 +3,25 @@ package Some;
 import java.sql.*;
 
 public class Main {
+    public static final String DB_NAME = "music.db";
+    public static final String CONNECTION_STRING = "jdbc:sqlite:E:\\Databases\\" + DB_NAME;
+
     public static void main(String[] args) {
         try {
             Class.forName("org.sqlite.JDBC");
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:E:\\Databases\\testjava.db");
+            Connection connection = DriverManager.getConnection(CONNECTION_STRING);
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM contacts");
+            ResultSet result = statement.executeQuery("SELECT * FROM albums");
             while (result.next()) {
+                int id = result.getInt("_id");
                 String name = result.getString("name");
-                int phone = result.getInt("phone");
-                String email = result.getString("email");
-                System.out.println("Name: " + name + " phone: " + phone + " email: " + email);
+                int artist = result.getInt("artist");
+                System.out.println(id + name + artist);
             }
-            result.close();
-            statement.close();
 
-            connection.close();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -106,17 +106,21 @@ public class DataSource {
         sb.append(TABLE_ARTISTS);
         sb.append(".");
         sb.append(COLUMN_ARTIST_NAME);
-        sb.append("=");
-        sb.append("'" + albumName + "'");
+        sb.append("=? ");
         sb.append(" ORDER BY albums.name COLLATE NOCASE");
         sb.append(sortOrder == 2 ? " ASC" : " DESC");
-        System.out.println(sb);
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sb.toString())) {
+
+        // PreparedStatement
+        try {
+            PreparedStatement prepStatement = connection.prepareStatement(sb.toString());
+            prepStatement.setString(1, albumName);
+            ResultSet resultSet = prepStatement.executeQuery();
             ArrayList<String> albums = new ArrayList<>();
             while (resultSet.next()) {
                 albums.add(resultSet.getString(COLUMN_ALBUM_NAME));
             }
+            resultSet.close();
+            prepStatement.close();
             return albums;
         } catch (SQLException e) {
             e.printStackTrace();

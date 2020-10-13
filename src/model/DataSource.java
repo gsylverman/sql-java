@@ -84,4 +84,26 @@ public class DataSource {
             return null;
         }
     }
+
+    public ArrayList<String> queryAlbumsForArtist(String albumName, int sortOrder) {
+        StringBuilder sb = new StringBuilder("SELECT ");
+        sb.append(TABLE_ALBUMS);
+        sb.append(".");
+        sb.append(COLUMN_ALBUM_NAME);
+        sb.append(" FROM albums INNER JOIN artists ON albums.artist=artists._id WHERE artists.name = ");
+        sb.append("'" + albumName + "'");
+        sb.append(" ORDER BY albums.name COLLATE NOCASE");
+        sb.append(sortOrder == 2 ? " ASC" : " DESC");
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sb.toString())) {
+            ArrayList<String> albums = new ArrayList<>();
+            while (resultSet.next()) {
+                albums.add(resultSet.getString(COLUMN_ALBUM_NAME));
+            }
+            return albums;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

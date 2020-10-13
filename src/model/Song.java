@@ -1,24 +1,24 @@
 package model;
 
 public class Song {
-    private int AlbumId;
+    private int songId;
     private String track;
     private String title;
     private int albumId;
 
-    public Song(int albumId, String track, String title, int albumId1) {
-        AlbumId = albumId;
+    public Song(int songId, String track, String title, int albumId) {
+        this.songId = songId;
         this.track = track;
         this.title = title;
-        this.albumId = albumId1;
+        this.albumId = albumId;
     }
 
-    public int getAlbumId() {
-        return AlbumId;
+    public int getSongId() {
+        return songId;
     }
 
-    public void setAlbumId(int albumId) {
-        AlbumId = albumId;
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
 
     public String getTrack() {
@@ -35,5 +35,13 @@ public class Song {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
     }
 }

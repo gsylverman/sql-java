@@ -90,10 +90,27 @@ public class DataSource {
         sb.append(TABLE_ALBUMS);
         sb.append(".");
         sb.append(COLUMN_ALBUM_NAME);
-        sb.append(" FROM albums INNER JOIN artists ON albums.artist=artists._id WHERE artists.name = ");
+        sb.append(" FROM ");
+        sb.append(TABLE_ALBUMS);
+        sb.append(" INNER JOIN ");
+        sb.append(TABLE_ARTISTS);
+        sb.append(" ON ");
+        sb.append(TABLE_ARTISTS);
+        sb.append(".");
+        sb.append(COLUMN_ARTIST_ID);
+        sb.append("=");
+        sb.append(TABLE_ALBUMS);
+        sb.append(".");
+        sb.append(COLUMN_ALBUM_ARTIST);
+        sb.append(" WHERE ");
+        sb.append(TABLE_ARTISTS);
+        sb.append(".");
+        sb.append(COLUMN_ARTIST_NAME);
+        sb.append("=");
         sb.append("'" + albumName + "'");
         sb.append(" ORDER BY albums.name COLLATE NOCASE");
         sb.append(sortOrder == 2 ? " ASC" : " DESC");
+        System.out.println(sb);
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sb.toString())) {
             ArrayList<String> albums = new ArrayList<>();
